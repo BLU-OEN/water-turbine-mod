@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": ["waterturbine:water_turbine"]
+  },
+  "criteria": {
+    "has_copper_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["minecraft:copper_ingot"] }
+        ]
+      }
+    }
+  },
+  "requirements": [["has_copper_ingot"]]
+}

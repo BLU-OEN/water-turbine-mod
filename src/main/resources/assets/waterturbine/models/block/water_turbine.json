@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "waterturbine:block/water_turbine_top",
+    "bottom": "waterturbine:block/water_turbine_bottom",
+    "side": "waterturbine:block/water_turbine_side"
+  }
+}

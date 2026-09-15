@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "waterlogged=true": { "model": "waterturbine:block/water_turbine" },
+    "waterlogged=false": { "model": "waterturbine:block/water_turbine" }
+  }
+}
