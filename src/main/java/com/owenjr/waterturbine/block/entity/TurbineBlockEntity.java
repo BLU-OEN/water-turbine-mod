@@ -20,7 +20,22 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
  * of its buffer as it can into any adjacent block that exposes an energy capability.
  */
 public class TurbineBlockEntity extends BlockEntity {
-    private final EnergyStorage energyStorage = new EnergyStorage(Config.energyCapacity, 0, Config.maxTransfer);
+    /**
+     * maxReceive is 0 so external sources can't charge the turbine via the public
+     * receiveEnergy API - but that also blocks our own generation from using it, so
+     * {@link #generate} adds energy directly instead of going through receiveEnergy.
+     */
+    private static final class GeneratorEnergyStorage extends EnergyStorage {
+        GeneratorEnergyStorage(int capacity, int maxExtract) {
+            super(capacity, 0, maxExtract);
+        }
+
+        void generate(int amount) {
+            energy = Math.min(capacity, energy + amount);
+        }
+    }
+
+    private final GeneratorEnergyStorage energyStorage = new GeneratorEnergyStorage(Config.energyCapacity, Config.maxTransfer);
 
     public TurbineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.TURBINE_BE.get(), pos, state);
@@ -34,7 +49,7 @@ public class TurbineBlockEntity extends BlockEntity {
         boolean generating = state.getValue(BlockStateProperties.WATERLOGGED);
         int before = turbine.energyStorage.getEnergyStored();
         if (generating) {
-            turbine.energyStorage.receiveEnergy(Config.generationRate, false);
+            turbine.energyStorage.generate(Config.generationRate);
         }
 
         turbine.pushEnergyToNeighbors(level, pos);
