@@ -6,6 +6,7 @@ import com.owenjr.waterturbine.registry.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -50,7 +51,7 @@ public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
-        boolean waterlogged = fluidState.getType() == Fluids.WATER;
+        boolean waterlogged = fluidState.is(FluidTags.WATER);
         return this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, waterlogged);
     }
 
