@@ -6,11 +6,14 @@ import com.owenjr.waterturbine.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -57,6 +60,51 @@ public class TurbineBlockEntity extends BlockEntity {
         if (turbine.energyStorage.getEnergyStored() != before) {
             turbine.setChanged();
         }
+    }
+
+    /**
+     * Cone-shaped bubble stream: on the back (intake) face bubbles spawn wide and drift in
+     * toward the block, and on the front (outtake) face they spawn at the block and flare
+     * outward, both using the same facing-aligned velocity so they read as one continuous flow.
+     */
+    public static void clientTick(Level level, BlockPos pos, BlockState state, TurbineBlockEntity turbine) {
+        if (!state.getValue(BlockStateProperties.WATERLOGGED)) {
+            return;
+        }
+
+        Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+        RandomSource random = level.getRandom();
+
+        Vec3 center = Vec3.atCenterOf(pos);
+        Vec3 dir = Vec3.atLowerCornerOf(facing.getNormal());
+        Vec3 up = new Vec3(0, 1, 0);
+        Vec3 right = dir.cross(up).normalize();
+
+        double maxDistance = 1.3;
+        double maxRadius = 0.55;
+        double speed = 0.06;
+        int particlesPerSide = 2;
+
+        for (int i = 0; i < particlesPerSide; i++) {
+            double t = random.nextDouble();
+            Vec3 lateral = coneOffset(right, up, maxRadius * t, random);
+            Vec3 particlePos = center.add(dir.scale(0.5 + maxDistance * t)).add(lateral);
+            Vec3 velocity = dir.scale(speed);
+            level.addParticle(ParticleTypes.BUBBLE, particlePos.x, particlePos.y, particlePos.z, velocity.x, velocity.y, velocity.z);
+        }
+
+        for (int i = 0; i < particlesPerSide; i++) {
+            double t = 0.4 + random.nextDouble() * 0.6;
+            Vec3 lateral = coneOffset(right, up, maxRadius * t, random);
+            Vec3 particlePos = center.subtract(dir.scale(0.5 + maxDistance * t)).add(lateral);
+            Vec3 velocity = dir.scale(speed);
+            level.addParticle(ParticleTypes.BUBBLE, particlePos.x, particlePos.y, particlePos.z, velocity.x, velocity.y, velocity.z);
+        }
+    }
+
+    private static Vec3 coneOffset(Vec3 right, Vec3 up, double radius, RandomSource random) {
+        double angle = random.nextDouble() * Math.PI * 2;
+        return right.scale(radius * Math.cos(angle)).add(up.scale(radius * Math.sin(angle)));
     }
 
     private void pushEnergyToNeighbors(Level level, BlockPos pos) {

@@ -1,8 +1,12 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "top": "waterturbine:block/water_turbine_top",
-    "bottom": "waterturbine:block/water_turbine_bottom",
-    "side": "waterturbine:block/water_turbine_side"
+    "particle": "waterturbine:block/water_turbine_side",
+    "north": "waterturbine:block/water_turbine_front",
+    "south": "waterturbine:block/water_turbine_back",
+    "east": "waterturbine:block/water_turbine_side",
+    "west": "waterturbine:block/water_turbine_side",
+    "up": "waterturbine:block/water_turbine_top",
+    "down": "waterturbine:block/water_turbine_bottom"
   }
 }

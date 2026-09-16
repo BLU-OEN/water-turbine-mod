@@ -34,7 +34,9 @@ public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     public TurbineBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(BlockStateProperties.WATERLOGGED, false)
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(BlockStateProperties.WATERLOGGED);
+        builder.add(BlockStateProperties.WATERLOGGED, BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Nullable
@@ -52,7 +54,19 @@ public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         boolean waterlogged = fluidState.is(FluidTags.WATER);
-        return this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, waterlogged);
+        return this.defaultBlockState()
+                .setValue(BlockStateProperties.WATERLOGGED, waterlogged)
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, net.minecraft.world.level.block.Rotation rotation) {
+        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, net.minecraft.world.level.block.Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
     @Override
@@ -90,6 +104,8 @@ public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.TURBINE_BE.get(), TurbineBlockEntity::serverTick);
+        return level.isClientSide
+                ? createTickerHelper(type, ModBlockEntities.TURBINE_BE.get(), TurbineBlockEntity::clientTick)
+                : createTickerHelper(type, ModBlockEntities.TURBINE_BE.get(), TurbineBlockEntity::serverTick);
     }
 }
