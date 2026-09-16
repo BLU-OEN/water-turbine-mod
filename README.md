@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 1.21.1 (NeoForge `21.1.176`) — the same versions used by the **All the Mods 10** modpack.
 
-> **Heads up:** this mod was built with Claude Code — code, textures, and all. Yes, this is AI slop. It works and it's been tested in-game, but don't expect hand-crafted pixel art or a human-reviewed codebase behind it. This is my introduction to Minecraft modding, and purely a learning experience.
+> **Heads up:** this mod was built with Claude Code — code, textures, and all. Yes, this is AI slop. It works and it's been tested in-game, but don't expect hand-crafted pixel art (<- This will change, I do plan to retexture the block) or a human-reviewed codebase behind it. This is my introduction to Minecraft modding, and purely a learning experience.
 
 Place the Water Turbine block directly into flowing or source water and it waterlogs itself, generating Forge Energy (FE) every tick and pushing it into any adjacent block that accepts FE (cables, machines, batteries, etc. from any FE-compatible mod — Mekanism, Thermal, Applied Energistics, Create-adjacent add-ons, and ATM10 itself).
 
