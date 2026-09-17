@@ -1,8 +1,8 @@
-# Redesign for turbine — Riverbed / T–01
+# Redesign for turbine — Monochrome / T–02
 
-Part of **Aquifer**, a shared visual direction for BLU-OEN’s Minecraft equipment: weathered copper, dark metal, patina and sea glass.
+Part of **Aquifer**, a shared visual direction for BLU-OEN’s Minecraft equipment: matte black housings, white enamel framing, satin silver details and smoked optics. Surfaces use clean bevels and seams, with no weathering or colored accents.
 
-A one-block hydro generator with a copper exoskeleton, oxidized service panels, stepped steel rotor rims, recessed four-vane rotors, central bearings and marked energy couplings. The 16-frame rotor texture runs only while waterlogged; the dry variant parks it. All eight existing facing/waterlogged combinations are covered.
+A one-block hydro generator with white corner framing, smooth black service panels, stepped silver rotor rims, recessed four-vane rotors, central bearings and marked energy couplings. The 16-frame rotor texture runs only while waterlogged; the dry variant parks it. All eight existing facing/waterlogged combinations are covered.
 
 ![Redesign preview](preview.png)
 
@@ -10,7 +10,7 @@ A one-block hydro generator with a copper exoskeleton, oxidized service panels, 
 
 Download this folder, then double-click **redesign for turbine.html**. The file includes the model, textures and resource-pack download, so it works offline without a server or JavaScript packages. GitHub displays HTML source; open a downloaded copy in a browser.
 
-Drag to orbit, scroll to zoom, or focus the canvas and use the arrow and +/− keys. Use the view and equipment/state controls to inspect the design. Explode separates components for inspection only. Automatic orbit is off by default; rotor animation respects reduced-motion preferences.
+Drag to orbit, scroll to zoom, or focus the canvas and use the arrow and +/− keys. The viewer is a single model canvas with basic view, equipment/state and zoom controls. Reset view restores the starting angle and zoom. Rotor animation respects reduced-motion preferences, and the renderer only redraws when the view or animation changes.
 
 ## Use in Minecraft
 
@@ -46,9 +46,9 @@ The build regenerates geometry, PNG textures, the ZIP and the offline preview. E
 
 ## Rendering scope
 
-The full-block collision, waterlogging, particles, six-sided FE output and energy settings are defined by the original mod. This pack does not change them. The rotor is an animated texture inside a static model, not a rotating mesh. The face lamp is decorative, not a live energy indicator. The preview lists the existing default energy settings; your configuration may differ.
+The full-block collision, waterlogging, particles, six-sided FE output and energy settings are defined by the original mod. This pack does not change them. The rotor is an animated texture inside a static model, not a rotating mesh. The white accent insert is decorative, not a live energy indicator. The preview lists the existing default energy settings; your configuration may differ.
 
-The browser uses exported geometry and textures with studio lighting. Minecraft’s world lighting, mipmaps, player skin and equipped armor rendering can look different. Asset validation and browser checks have been run; **these redesigns have not been tested inside Minecraft**.
+The browser uses exported geometry and textures with simple directional shading. Minecraft’s world lighting, mipmaps, player skin and equipped armor rendering can look different. Asset validation and browser checks have been run; **these redesigns have not been tested inside Minecraft**.
 
 ## Format references
 

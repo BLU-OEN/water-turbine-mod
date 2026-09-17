@@ -1,47 +1,29 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aquifer — Minecraft redesign</title>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minecraft model preview</title>
 <style>
-:root{--paper:#f1eee4;--ink:#263b38;--muted:#6e7b71;--line:#cdd0c1;--accent:#9a5c3a;--mint:#678d79}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 system-ui,sans-serif}button,a,input{touch-action:manipulation}button,a{color:inherit}button{font:inherit;cursor:pointer}a{text-underline-offset:4px}header{max-width:1480px;margin:auto;padding:30px 5vw 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;font-size:21px;letter-spacing:.16em;font-weight:700}.brand svg{width:30px;height:30px}.mono{font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase;letter-spacing:.12em}.edition{color:var(--muted)}main{max-width:1480px;margin:auto;padding:38px 5vw 30px}.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:30px}.eyebrow{color:var(--accent);margin:0 0 14px}h1{font:normal clamp(45px,5.4vw,78px)/1.02 Georgia,serif;letter-spacing:-.055em;margin:0}h1 em{color:var(--mint);font-weight:normal}.intro p.description{max-width:365px;font-size:14px;line-height:1.75;color:var(--muted);margin:0 0 5px}.workbench{display:grid;grid-template-columns:minmax(0,1fr) 288px;border:1px solid var(--line);min-height:515px}.viewport{position:relative;overflow:hidden;min-height:515px;background:radial-gradient(ellipse at 50% 58%,#d5ddce 0%,#e3e5d8 38%,#e9e9df 75%)}.viewport:before{content:'';position:absolute;inset:0;background-image:linear-gradient(#6b82600d 1px,transparent 1px),linear-gradient(90deg,#6b82600d 1px,transparent 1px);background-size:38px 38px;pointer-events:none}.viewport:after{content:'';position:absolute;width:40%;height:45px;left:30%;top:76%;background:#2c433927;filter:blur(19px);border-radius:50%;pointer-events:none}canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;cursor:grab;touch-action:none;outline-offset:-6px}canvas:active{cursor:grabbing}.stage-label{position:absolute;top:23px;left:26px;z-index:2;pointer-events:none}.stage-label span{display:block;margin-top:5px;color:var(--muted);font-size:10px}.stage-index{position:absolute;top:18px;right:24px;color:#8d9c88;font:italic 45px Georgia,serif}.stage-bottom{position:absolute;bottom:20px;left:24px;right:24px;display:flex;align-items:center;justify-content:space-between;z-index:2;pointer-events:none;gap:8px}.stage-bottom span{color:var(--muted);font-size:9px}.state-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mint);margin-right:7px}.inspector{border-left:1px solid var(--line);padding:26px 25px;display:flex;flex-direction:column;gap:24px;background:#f5f2e9}.inspector h2{font:normal 27px/1.15 Georgia,serif;letter-spacing:-.035em;margin:4px 0 9px}.inspector p{font-size:12px;color:var(--muted);line-height:1.7;margin:0}.tag{color:var(--accent)}.group label,.group .label{display:block;margin-bottom:10px;color:var(--muted)}.segment{display:flex;border:1px solid #bfc6b7;padding:3px;gap:3px}.segment button{flex:1;background:transparent;border:0;padding:7px 5px;font-size:11px}.segment button[aria-pressed=true]{background:var(--ink);color:var(--paper)}.toggles{display:flex;gap:14px;flex-wrap:wrap}.toggle{font-size:11px;display:flex;align-items:center;gap:7px}.toggle input{accent-color:var(--ink);width:14px;height:14px;margin:0}.toggle:has(input:disabled){opacity:.4}input[type=range]{accent-color:var(--ink);width:100%}.spec{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:8px 0;font-size:11px}.spec span{color:var(--muted)}.download{display:block;text-decoration:none;background:var(--ink);color:var(--paper);padding:11px 14px;font-size:12px;text-align:center;margin-top:auto}.download:hover{background:#436151}.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:28px 0}.note{display:grid;grid-template-columns:26px 1fr;gap:12px}.note .num{color:var(--accent);font:italic 20px Georgia,serif}.note h3{font-size:12px;margin:0 0 5px;font-weight:650}.note p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}.bottom{border-top:1px solid var(--line);padding:20px 0;display:flex;justify-content:space-between;gap:30px;align-items:center}.swatches{display:flex;align-items:center;gap:8px}.swatch{height:20px;width:20px;border:1px solid #0001}.swatches .mono{margin-left:7px;font-size:9px;color:var(--muted)}details{border-top:1px solid var(--line);padding:18px 0;font-size:12px;color:var(--muted)}summary{cursor:pointer;color:var(--ink)}details p{max-width:760px}code{font-size:11px;background:#e4e5d8;padding:2px 5px}.error{position:absolute;inset:35% 10%;z-index:3;background:var(--paper);padding:20px;display:none}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}footer{font-size:10px;color:var(--muted);margin-top:14px;display:flex;justify-content:space-between;gap:20px}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}@media(max-width:900px){.workbench{grid-template-columns:minmax(0,1fr) 250px}.inspector{padding:22px 18px}.intro p.description{max-width:280px}.viewport{min-height:470px}}@media(max-width:680px){header{padding:20px 6vw}.edition{font-size:9px;text-align:right;max-width:120px}.brand{font-size:17px}main{padding:27px 6vw}.intro{display:block}.intro p.description{max-width:none;margin-top:19px}.workbench{display:block}.viewport{min-height:400px}.inspector{border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:20px}.inspector>div:first-child,.inspector .download{grid-column:1/-1}.notes{grid-template-columns:1fr;gap:20px}.bottom{align-items:flex-start;flex-direction:column;gap:16px}.stage-bottom span{font-size:8px}.stage-label{left:18px}.stage-bottom{left:18px;right:18px}.stage-index{right:18px}footer{display:block}h1{font-size:52px}}
-</style></head><body>
-<header><div class="brand"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 28V12L16 4l12 8v16M4 20h24M11 28V15h10v13" stroke="currentColor" stroke-width="2.5"/></svg>AQUIFER</div><div class="mono edition">BLU-OEN / Minecraft<br>Equipment studies · 01—02</div></header>
-<main><section class="intro"><div><p class="eyebrow mono" id="eyebrow"></p><h1 id="headline"></h1></div><p class="description" id="description"></p></section>
-<section class="workbench" aria-label="Interactive model preview"><div class="viewport"><div class="stage-label mono" id="stage-label"></div><div class="stage-index" id="index"></div><canvas id="model" tabindex="0" aria-label="Interactive 3D model. Drag or use arrow keys to rotate; plus and minus keys to zoom."></canvas><div class="error" role="status" id="error">This browser could not start WebGL. The resource pack and model files are still available below.</div><div class="stage-bottom"><span class="mono">Drag to orbit · Scroll to zoom</span><span class="mono" id="status"><i class="state-dot"></i>Native Minecraft geometry</span></div></div>
-<aside class="inspector"><div><span class="mono tag">The redesign</span><h2 id="name"></h2><p id="summary"></p></div>
-<div class="group"><span class="label mono" id="mode-label">Operating state</span><div class="segment" id="modes"><button id="mode-a" type="button" aria-pressed="true"></button><button id="mode-b" type="button" aria-pressed="false"></button></div></div>
-<div class="group"><span class="label mono">View</span><div class="segment"><button id="angle" type="button" aria-pressed="true">¾ view</button><button id="front" type="button" aria-pressed="false">Front</button><button id="back" type="button" aria-pressed="false">Rear</button></div></div>
-<div class="toggles"><label class="toggle"><input type="checkbox" id="spin">Auto orbit</label><label class="toggle"><input type="checkbox" id="explode">Explode</label></div>
-<div class="group"><label class="mono" for="zoom">Magnification</label><input type="range" id="zoom" min="0.65" max="1.65" step="0.05" value="1"></div>
-<div id="specs"></div><a class="download" id="download">Download resource pack ↗</a></aside></section>
-<section class="notes" id="notes" aria-label="Design details"></section>
-<div class="bottom"><div class="swatches"><span class="swatch" style="background:#b8764e" title="Weathered copper"></span><span class="swatch" style="background:#4c8275" title="Patina"></span><span class="swatch" style="background:#243b3d" title="Dark metal"></span><span class="swatch" style="background:#dbddc4" title="Warm enamel"></span><span class="mono">Copper / patina / graphite / enamel</span></div><span class="mono" style="color:var(--muted);font-size:9px">Minecraft 1.21.1 · NeoForge 21.1.176</span></div>
-<details><summary>Install &amp; understand the preview</summary><p>Download the ZIP, place it in your instance’s <code>resourcepacks</code> folder, then enable it above the mod’s resources in Minecraft’s Resource Packs menu. Keep the original mod installed. This is a client resource pack; no server installation is required.</p><p id="limits"></p><p>The viewer uses the exported cuboids, UV coordinates and pixel textures. Its studio lighting and exploded view are presentation aids. Confirm appearance in Minecraft before treating these assets as release tested. Source geometry can be imported into Blockbench as a Java Block/Item model.</p></details>
-<footer><span>AQUIFER / A visual redesign for BLU-OEN’s Minecraft mods.</span><span>Original grid-authored models &amp; pixel materials · Open locally, works offline.</span></footer></main>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#171717;font:13px/1.5 system-ui,sans-serif}main{max-width:1200px;margin:auto;padding:20px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px}h1{font-size:16px;font-weight:600;margin:0}header p{margin:2px 0 0;color:#666;font-size:12px}a{color:inherit;text-underline-offset:3px}.viewport{position:relative;height:min(72vh,760px);min-height:380px;background:#e8e8e8;border:1px solid #ddd;border-radius:5px;overflow:hidden}canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.caption{position:absolute;top:14px;left:16px;color:#555;font-size:12px;pointer-events:none}.error{position:absolute;inset:40% 10%;display:none;background:#fff;padding:16px}.toolbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 0}.segment{display:flex;gap:4px}button{font:inherit;cursor:pointer;padding:6px 10px;border:1px solid #ccc;border-radius:4px;background:#fff;color:#222}button[aria-pressed=true]{color:#fff;background:#222;border-color:#222}button:hover{border-color:#777}label{display:flex;align-items:center;gap:8px;color:#555}input{accent-color:#222;width:110px}.hint{color:#666;font-size:12px;margin:0}.download{font-size:12px;white-space:nowrap}button:focus-visible,a:focus-visible,canvas:focus-visible,input:focus-visible{outline:2px solid #555;outline-offset:3px}@media(max-width:600px){main{padding:12px}.viewport{height:60vh;min-height:320px}.toolbar{gap:12px}header{align-items:flex-start}h1{font-size:15px}.download{font-size:11px}}
+</style>
+</head>
+<body><main>
+<header><div><h1 id="title"></h1><p>Black &amp; white · Minecraft 1.21.1</p></div><a class="download" id="download">Download resource pack</a></header>
+<div class="viewport"><canvas id="model" tabindex="0" aria-label="3D model. Drag or use arrow keys to rotate. Scroll or use plus and minus to zoom."></canvas><span class="caption" id="view-caption"></span><div class="error" role="status" id="error">WebGL is unavailable in this browser. You can still download the resource pack above.</div></div>
+<div class="toolbar" aria-label="Model controls">
+<div class="segment" role="group" aria-label="Model version"><button id="mode-a" type="button" aria-pressed="true"></button><button id="mode-b" type="button" aria-pressed="false"></button></div>
+<div class="segment" role="group" aria-label="Camera view"><button id="angle" type="button" aria-pressed="true">Reset view</button><button id="front" type="button" aria-pressed="false">Front</button><button id="back" type="button" aria-pressed="false">Rear</button></div>
+<label for="zoom">Zoom <input id="zoom" type="range" min="0.65" max="1.65" step="0.05" value="1"></label>
+</div><p class="hint">Drag to rotate · Scroll to zoom · Arrow keys also work</p>
+</main>
 <script>
 const D=/*__DESIGN_DATA__*/;
 const T=D.kind==='turbine', $=id=>document.getElementById(id);
-document.title=`Redesign for ${D.kind} — Aquifer`;
-$('eyebrow').textContent=T?'01 / Water Turbine':'02 / Rebreather Goggles';
-$('headline').innerHTML=T?'Current,<br><em>into power.</em>':'A little deeper.<br><em>A lot clearer.</em>';
-$('description').textContent=T?'A compact hydro generator, rebuilt as a piece of working machinery. Weathered copper, a protected rotor, and a body made for the riverbed.':'A small piece of kit for a much bigger world. Clear sea-green optics, a copper breathing regulator, and a strap that leaves your character visible.';
-$('name').textContent=T?'Riverbed / T–01':'Seaglass / R–01';
-$('summary').textContent=T?'A recessed rotor and stepped steel rim give the original block a mechanical silhouette.':'Twin optics and a compact regulator give the diving mask a recognizable identity.';
-$('stage-label').innerHTML=(T?'Water Turbine':'Rebreather Goggles')+'<span id="view-caption">'+(T?'Waterlogged · Rotor running':'3D inventory & hand model')+'</span>';
-$('index').textContent=T?'01':'02';
-$('mode-label').textContent=T?'Operating state':'Equipment view';
+document.title=`Redesign for ${D.kind} — Black & white`;
+$('title').textContent=T?'Water turbine':'Rebreather goggles';
 $('mode-a').textContent=T?'Waterlogged':'3D item';$('mode-b').textContent=T?'Dry':'Worn mask';
-$('specs').innerHTML=(T?[['Generation','20 FE / tick'],['Energy buffer','32,000 FE'],['Transfer / side','200 FE / tick']]:[['Underwater time','≈ 15 minutes'],['Equipment slot','Helmet'],['Effects','Breathing + vision']]).map(([a,b])=>`<div class="spec"><span>${a}</span><b>${b}</b></div>`).join('');
+$('view-caption').textContent=T?'Waterlogged · Rotor running':'3D inventory & hand model';
 $('download').href=D.download;$('download').download=`redesign-for-${D.kind}.zip`;
-const notes=T?[
- ['Built around the rotor','A dark, inset chamber makes the pale vanes readable. The stepped rim and center bearing add real depth.'],
- ['A machine with a purpose','Oxidized service panels, copper corner rails, and marked couplings give every surface a job. FE still outputs on all six sides.'],
- ['Water drives the motion','The 16-frame rotor texture runs only in the waterlogged model. The dry model parks the rotor; output stays tied to your existing config.']
-]:[
- ['Optics first','Paired sea-green lenses sit beneath protective patina brows. Small, deliberate highlights stay readable at inventory scale.'],
- ['A believable breathing system','A central slatted regulator and twin filter housings anchor the 3D item. Copper joins the optics to the darker seals and strap.'],
- ['Made to be worn','A separate armor texture wraps the existing head model. Hair stays exposed; lens frames, side hinges, and a rear buckle carry the design around the head.']
-];
-$('notes').innerHTML=notes.map(([h,p],i)=>`<article class="note"><span class="num">0${i+1}</span><div><h3>${h}</h3><p>${p}</p></div></article>`).join('');
-$('limits').textContent=T?'The full-block collision and original energy behavior remain in the mod. The rotor is a pixel animation inside the 3D housing, not moving geometry. The small lamp is decorative, not a live FE meter. The preview’s waterlogged/dry switch selects the corresponding resource-pack model.':'Minecraft uses different assets for held items and equipped armor. The sculpted 3D item appears in hand, inventory, on the ground and in item frames. The worn view shows the actual 128 × 64 armor texture on the existing head layer; protruding 3D filters on the player would require a custom armor renderer. The mannequin is only a display stand.';
 const canvas=$('model'),gl=canvas.getContext('webgl',{alpha:true,antialias:true,preserveDrawingBuffer:true});
 if(!gl){$('error').style.display='block';}else start();
 function start(){
@@ -56,7 +38,7 @@ function start(){
  const textures={};
  function texture(name,data){const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);if(data.p)gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,data.w,data.h,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(data.p));else gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,data);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);textures[name]=tex;}
  for(const [name,data] of Object.entries(D.textures)){if(data.url){const im=new Image();im.onload=()=>texture(name,im);im.src=data.url;}else texture(name,data);}
- let yaw=-.65,pitch=-.38,zoom=1,mode=0,last=0,drag=null;
+ let yaw=-.65,pitch=-.38,zoom=1,mode=0,drag=null,lastDrawKey=null;
  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const faces=['north','south','east','west','up','down'];
  const defaultFace=mat=>({uv:D.tiles[mat],texture:'#materials'});
@@ -66,27 +48,36 @@ function start(){
   box([4,-3,4],[12,0,12],'dark'),
   {from:[-1,-1,-1],to:[17,17,17],faces:Object.fromEntries(Object.entries({north:[16,16,32,32],south:[48,16,64,32],west:[0,16,16,32],east:[32,16,48,32],up:[16,0,32,16],down:[32,0,48,16]}).map(([f,uv])=>[f,{uv:[uv[0]/8,uv[1]/4,uv[2]/8,uv[3]/4],texture:'#armor'}]))}
  ];}
- function mesh(es,explode){const out={};for(const e of es){let a=[...e.from],b=[...e.to];if(explode){let dz=T?(e.group==='front'?-4:e.group==='rear'?4:0):(e.group==='lenses'?-3:e.group==='strap'?3:0);a[2]+=dz;b[2]+=dz;if(!T&&e.group==='regulator'){a[1]-=3;b[1]-=3;}}
+ function mesh(es){const out={};for(const e of es){const a=e.from,b=e.to;
   const [x,y,z]=a,[X,Y,Z]=b;
   const corners={north:[[x,Y,z],[X,Y,z],[X,y,z],[x,y,z]],south:[[X,Y,Z],[x,Y,Z],[x,y,Z],[X,y,Z]],east:[[X,Y,z],[X,Y,Z],[X,y,Z],[X,y,z]],west:[[x,Y,Z],[x,Y,z],[x,y,z],[x,y,Z]],up:[[x,Y,Z],[X,Y,Z],[X,Y,z],[x,Y,z]],down:[[x,y,z],[X,y,z],[X,y,Z],[x,y,Z]]};
   for(const [side,f] of Object.entries(e.faces)){const name=f.texture.slice(1),p=corners[side],u=f.uv.map(v=>v/16),uv=[[u[0],u[1]],[u[2],u[1]],[u[2],u[3]],[u[0],u[3]]],light=({north:.95,south:.76,east:.80,west:.88,up:1,down:.62})[side];out[name]??=[];for(const i of [0,1,2,0,2,3])out[name].push(...p[i],...uv[i],light);}}
   return Object.fromEntries(Object.entries(out).map(([k,v])=>[k,new Float32Array(v)]));
  }
- let meshes=mesh(D.elements,false);
- function rebuild(){meshes=mesh(!T&&mode===1?worn():D.elements,$('explode').checked);}
- function modeSet(n){mode=n;$('mode-a').setAttribute('aria-pressed',n===0);$('mode-b').setAttribute('aria-pressed',n===1);$('explode').disabled=!T&&n===1;if($('explode').disabled)$('explode').checked=false;$('view-caption').textContent=T?(n===0?'Waterlogged · Rotor running':'Dry · Rotor parked'):(n===0?'3D inventory & hand model':'Actual armor texture · Neutral mannequin');rebuild();}
+ let meshes=mesh(D.elements);
+ function rebuild(){meshes=mesh(!T&&mode===1?worn():D.elements);}
+ function modeSet(n){mode=n;$('mode-a').setAttribute('aria-pressed',n===0);$('mode-b').setAttribute('aria-pressed',n===1);$('view-caption').textContent=T?(n===0?'Waterlogged · Rotor running':'Dry · Rotor parked'):(n===0?'3D inventory & hand model':'Actual armor texture · Neutral mannequin');rebuild();}
  $('mode-a').onclick=()=>modeSet(0);$('mode-b').onclick=()=>modeSet(1);
- $('explode').onchange=()=>{rebuild();$('status').innerHTML=$('explode').checked?'Assembly inspection · Preview only':'<i class="state-dot"></i>Native Minecraft geometry';};
- function view(id,y,p){yaw=y;pitch=p;$('spin').checked=false;for(const b of ['angle','front','back'])$(b).setAttribute('aria-pressed',b===id);}
- $('angle').onclick=()=>view('angle',-.65,-.38);$('front').onclick=()=>view('front',0,0);$('back').onclick=()=>view('back',Math.PI,0);
+ function view(id,y,p){yaw=y;pitch=p;for(const b of ['angle','front','back'])$(b).setAttribute('aria-pressed',b===id);}
+ $('angle').onclick=()=>{view('angle',-.65,-.38);zoom=1;$('zoom').value=1;};$('front').onclick=()=>view('front',0,0);$('back').onclick=()=>view('back',Math.PI,0);
  $('zoom').oninput=()=>zoom=Number($('zoom').value);
- canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);$('spin').checked=false;};
+ canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);};
  canvas.onpointermove=e=>{if(!drag)return;yaw+=(e.clientX-drag[0])*.008;pitch=Math.max(-1.2,Math.min(1.2,pitch+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];};
  canvas.onpointerup=canvas.onpointercancel=()=>drag=null;
  canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.65,Math.min(1.65,zoom-e.deltaY*.001));$('zoom').value=zoom;},{passive:false});
- canvas.onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-','='].includes(e.key)){e.preventDefault();$('spin').checked=false;if(e.key==='ArrowLeft')yaw-=.12;if(e.key==='ArrowRight')yaw+=.12;if(e.key==='ArrowUp')pitch=Math.min(1.2,pitch+.12);if(e.key==='ArrowDown')pitch=Math.max(-1.2,pitch-.12);if(e.key==='+'||e.key==='=')zoom=Math.min(1.65,zoom+.05);if(e.key==='-')zoom=Math.max(.65,zoom-.05);$('zoom').value=zoom;}};
- function draw(time){const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);const dt=Math.min((time-last)/1000,.05);last=time;if($('spin').checked)yaw+=dt*.3;gl.uniform1f(uniforms.yaw,yaw);gl.uniform1f(uniforms.pitch,pitch);gl.uniform1f(uniforms.zoom,zoom*(w<h? w/h:1));gl.uniform1f(uniforms.aspect,w/h);
-  for(const [name,vertices] of Object.entries(meshes)){if(!textures[name])continue;gl.bindTexture(gl.TEXTURE_2D,textures[name]);gl.uniform1f(uniforms.rows,name==='rotor'?16:1);gl.uniform1f(uniforms.frame,name==='rotor'&&mode===0&&!reduce?Math.floor(time/100)%16:0);gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);gl.drawArrays(gl.TRIANGLES,0,vertices.length/6);}window.__previewReady=Object.keys(textures).length===Object.keys(D.textures).length;requestAnimationFrame(draw);}
+ canvas.onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-','='].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')yaw-=.12;if(e.key==='ArrowRight')yaw+=.12;if(e.key==='ArrowUp')pitch=Math.min(1.2,pitch+.12);if(e.key==='ArrowDown')pitch=Math.max(-1.2,pitch-.12);if(e.key==='+'||e.key==='=')zoom=Math.min(1.65,zoom+.05);if(e.key==='-')zoom=Math.max(.65,zoom-.05);$('zoom').value=zoom;}};
+ function draw(time){
+  requestAnimationFrame(draw);
+  const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(devicePixelRatio||1,2);
+  const frame=T&&mode===0&&!reduce?Math.floor(time/100)%16:0;
+  const key=[w,h,dpr,yaw,pitch,zoom,mode,frame,Object.keys(textures).length].join(',');
+  if(key===lastDrawKey)return;
+  lastDrawKey=key;
+  if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
+  gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.uniform1f(uniforms.yaw,yaw);gl.uniform1f(uniforms.pitch,pitch);gl.uniform1f(uniforms.zoom,zoom*(w<h?w/h:1));gl.uniform1f(uniforms.aspect,w/h);
+  for(const [name,vertices] of Object.entries(meshes)){if(!textures[name])continue;gl.bindTexture(gl.TEXTURE_2D,textures[name]);gl.uniform1f(uniforms.rows,name==='rotor'?16:1);gl.uniform1f(uniforms.frame,name==='rotor'?frame:0);gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);gl.drawArrays(gl.TRIANGLES,0,vertices.length/6);}window.__previewReady=Object.keys(textures).length===Object.keys(D.textures).length;}
  requestAnimationFrame(draw);
 }
+
 </script></body></html>

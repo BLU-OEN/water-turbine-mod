@@ -1,5 +1,5 @@
 {
-  "credit": "BLU-OEN / Aquifer redesign",
+  "credit": "BLU-OEN / Aquifer monochrome redesign",
   "parent": "minecraft:block/block",
   "ambientocclusion": true,
   "gui_light": "side",
@@ -1114,7 +1114,7 @@
       }
     },
     {
-      "name": "Copper spindle",
+      "name": "White spindle",
       "from": [
         7,
         7,
@@ -2080,7 +2080,7 @@
       }
     },
     {
-      "name": "Copper spindle",
+      "name": "White spindle",
       "from": [
         7,
         7,
@@ -2770,7 +2770,7 @@
       }
     },
     {
-      "name": "Water state lamp",
+      "name": "White accent insert",
       "from": [
         11,
         14.5,
