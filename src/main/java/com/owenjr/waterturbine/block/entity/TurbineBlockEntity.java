@@ -40,6 +40,14 @@ public class TurbineBlockEntity extends BlockEntity {
 
     private final GeneratorEnergyStorage energyStorage = new GeneratorEnergyStorage(Config.energyCapacity, Config.maxTransfer);
 
+    // Client-local animation; energy, persistence and the existing bubble cone are unchanged.
+    private float rotorAngle;
+    private float previousRotorAngle;
+
+    public float getRotorAngle(float partialTick) {
+        return previousRotorAngle + (rotorAngle - previousRotorAngle) * partialTick;
+    }
+
     public TurbineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.TURBINE_BE.get(), pos, state);
     }
@@ -68,8 +76,15 @@ public class TurbineBlockEntity extends BlockEntity {
      * outward, both using the same facing-aligned velocity so they read as one continuous flow.
      */
     public static void clientTick(Level level, BlockPos pos, BlockState state, TurbineBlockEntity turbine) {
+        turbine.previousRotorAngle = turbine.rotorAngle;
         if (!state.getValue(BlockStateProperties.WATERLOGGED)) {
             return;
+        }
+
+        turbine.rotorAngle += 6.0F;
+        if (turbine.rotorAngle >= 360.0F) {
+            turbine.rotorAngle -= 360.0F;
+            turbine.previousRotorAngle -= 360.0F;
         }
 
         Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);

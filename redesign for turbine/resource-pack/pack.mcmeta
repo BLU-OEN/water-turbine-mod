@@ -1,6 +1,6 @@
 {
   "pack": {
     "pack_format": 34,
-    "description": "Aquifer Monochrome / Water Turbine redesign — Minecraft 1.21.1"
+    "description": "Monochrome turbine - requires Water Turbine 1.1.0 (model is also included in the mod)"
   }
 }

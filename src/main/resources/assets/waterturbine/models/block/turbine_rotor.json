@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "neoforge:obj",
-  "model": "waterturbine:models/block/turbine_body.obj",
+  "model": "waterturbine:models/block/turbine_rotor.obj",
   "automatic_culling": false,
   "shade_quads": true,
   "emissive_ambient": false,

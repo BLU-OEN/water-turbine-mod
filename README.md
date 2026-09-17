@@ -21,6 +21,24 @@ Defaults (configurable in `config/waterturbine-common.toml` after first run):
 | `energyCapacity` | 32,000 FE | Internal buffer size |
 | `maxTransfer` | 200 FE/t | Max FE pushed to a single adjacent side per tick |
 
+## Monochrome model (1.1.0)
+
+Rounded white housing, black side panels, a hollow outlet and four curved rotor blades are included in the mod. The rotor spins while waterlogged and stops when dry. The original cone-shaped intake/outlet bubble effect is preserved unchanged, as are FE generation and transfer.
+
+Inventory and held items show the complete turbine. All four horizontal placements are supported. Models use NeoForge's built-in OBJ loader; no additional rendering library or resource pack is needed.
+
+Replace the old Water Turbine JAR with `waterturbine-1.1.0.jar` and restart Minecraft. Remove an older turbine redesign resource pack or use the updated pack from this repository, otherwise it will override the new housing. Do not keep both mod versions installed.
+
+### Asset checks
+
+```sh
+python3 tools/generate_turbine_assets.py
+./gradlew build
+./gradlew -I tools/smoke.gradle runClient
+```
+
+The last command opens a development client, checks all eight block states plus rotor and inventory models for missing textures, verifies renderer registration, and exits. Smoke-test classes are excluded from a normal build; run `./gradlew build` without the init script for release packaging.
+
 ## Crafting
 
 ```

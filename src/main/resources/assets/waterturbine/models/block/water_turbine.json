@@ -1,12 +1,11 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/block",
+  "loader": "neoforge:obj",
+  "model": "waterturbine:models/block/turbine_body.obj",
+  "automatic_culling": false,
+  "shade_quads": true,
+  "emissive_ambient": false,
   "textures": {
-    "particle": "waterturbine:block/water_turbine_side",
-    "north": "waterturbine:block/water_turbine_front",
-    "south": "waterturbine:block/water_turbine_back",
-    "east": "waterturbine:block/water_turbine_side",
-    "west": "waterturbine:block/water_turbine_side",
-    "up": "waterturbine:block/water_turbine_top",
-    "down": "waterturbine:block/water_turbine_bottom"
+    "particle": "waterturbine:block/turbine_white"
   }
 }

@@ -1,6 +1,3 @@
 {
-  "parent": "waterturbine:block/water_turbine",
-  "textures": {
-    "rotor": "waterturbine:redesign/rotor_wet"
-  }
+  "parent": "waterturbine:block/water_turbine"
 }

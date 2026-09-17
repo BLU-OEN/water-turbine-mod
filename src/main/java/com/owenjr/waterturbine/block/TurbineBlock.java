@@ -22,15 +22,37 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
 
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A full-block hydro generator. Placing it directly into a water source (or flowing water)
+ * A compact hydro generator. Placing it directly into a water source (or flowing water)
  * waterlogs it, and while waterlogged its block entity generates Forge Energy every tick.
  */
 public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<TurbineBlock> CODEC = simpleCodec(TurbineBlock::new);
+
+    private static final VoxelShape NORTH_SHAPE = Shapes.or(
+            box(4, 4, 0, 12, 12, 11), box(1, 1, 12, 15, 15, 15), box(6, 2, 5, 10, 4, 8));
+    private static final VoxelShape SOUTH_SHAPE = Shapes.or(
+            box(4, 4, 5, 12, 12, 16), box(1, 1, 1, 15, 15, 4), box(6, 2, 8, 10, 4, 11));
+    private static final VoxelShape EAST_SHAPE = Shapes.or(
+            box(5, 4, 4, 16, 12, 12), box(1, 1, 1, 4, 15, 15), box(8, 2, 6, 11, 4, 10));
+    private static final VoxelShape WEST_SHAPE = Shapes.or(
+            box(0, 4, 4, 11, 12, 12), box(12, 1, 1, 15, 15, 15), box(5, 2, 6, 8, 4, 10));
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
+            case SOUTH -> SOUTH_SHAPE;
+            case EAST -> EAST_SHAPE;
+            case WEST -> WEST_SHAPE;
+            default -> NORTH_SHAPE;
+        };
+    }
 
     public TurbineBlock(Properties properties) {
         super(properties);

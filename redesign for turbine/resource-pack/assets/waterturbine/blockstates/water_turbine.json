@@ -1,19 +1,17 @@
 {
   "variants": {
     "facing=north,waterlogged=false": {
-      "model": "waterturbine:block/water_turbine",
-      "y": 0
+      "model": "waterturbine:block/water_turbine"
     },
     "facing=north,waterlogged=true": {
-      "model": "waterturbine:block/water_turbine_wet",
-      "y": 0
+      "model": "waterturbine:block/water_turbine"
     },
     "facing=east,waterlogged=false": {
       "model": "waterturbine:block/water_turbine",
       "y": 90
     },
     "facing=east,waterlogged=true": {
-      "model": "waterturbine:block/water_turbine_wet",
+      "model": "waterturbine:block/water_turbine",
       "y": 90
     },
     "facing=south,waterlogged=false": {
@@ -21,7 +19,7 @@
       "y": 180
     },
     "facing=south,waterlogged=true": {
-      "model": "waterturbine:block/water_turbine_wet",
+      "model": "waterturbine:block/water_turbine",
       "y": 180
     },
     "facing=west,waterlogged=false": {
@@ -29,7 +27,7 @@
       "y": 270
     },
     "facing=west,waterlogged=true": {
-      "model": "waterturbine:block/water_turbine_wet",
+      "model": "waterturbine:block/water_turbine",
       "y": 270
     }
   }

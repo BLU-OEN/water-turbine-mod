@@ -1,0 +1,11 @@
+newmtl white
+Kd 1 1 1
+map_Kd waterturbine:block/turbine_white
+
+newmtl black
+Kd 1 1 1
+map_Kd waterturbine:block/turbine_black
+
+newmtl silver
+Kd 1 1 1
+map_Kd waterturbine:block/turbine_silver
