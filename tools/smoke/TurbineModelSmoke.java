@@ -4,6 +4,10 @@ import com.owenjr.waterturbine.WaterTurbineMod;
 import com.owenjr.waterturbine.client.TurbineRenderer;
 import com.owenjr.waterturbine.block.entity.TurbineBlockEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -57,8 +61,29 @@ public final class TurbineModelSmoke {
             if (!(mc.getBlockEntityRenderDispatcher().getRenderer(turbine) instanceof TurbineRenderer)) {
                 throw new AssertionError("Rotor renderer was not registered");
             }
-            System.out.println("TURBINE_SMOKE: PASS; client renderer registered");
-            mc.stop();
+            if (ticks == 20) mc.setScreen(new Preview());
+            if (ticks == 50) {
+                Screenshot.grab(mc.gameDirectory, "turbine-model-check.png", mc.getMainRenderTarget(),
+                        message -> System.out.println("TURBINE_SMOKE: " + message.getString()));
+            }
+            if (ticks >= 70) {
+                System.out.println("TURBINE_SMOKE: PASS; client renderer registered");
+                mc.stop();
+            }
         }
     }
+    private static final class Preview extends Screen {
+        Preview() { super(Component.literal("Turbine model check")); }
+        @Override
+        public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.fill(0, 0, width, height, 0xFF25292D);
+            float scale = Math.min(width, height) / 22.0F;
+            graphics.pose().pushPose();
+            graphics.pose().translate(width / 2.0F - 8 * scale, height / 2.0F - 8 * scale, 0);
+            graphics.pose().scale(scale, scale, scale);
+            graphics.renderItem(WaterTurbineMod.WATER_TURBINE_ITEM.get().getDefaultInstance(), 0, 0);
+            graphics.pose().popPose();
+        }
+    }
+
 }

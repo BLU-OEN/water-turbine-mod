@@ -4,6 +4,8 @@ from pathlib import Path
 import json
 import math
 import struct
+import shutil
+import zipfile
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +50,21 @@ class Mesh:
                           for z, r, t in [(z1,r1,a),(z1,r1,b),(z2,r2,b),(z2,r2,a)]]
                 self.face(points, material, ((z2-z1)*math.cos((a+b)/2),
                                             (z2-z1)*math.sin((a+b)/2), r1-r2))
+
+    def chamfered(self, profile, material):
+        # Flat top and side panels with clipped corners; retain the tapered silhouette.
+        def ring(z, radius):
+            inner = radius * .76
+            return [(0.5+x, 0.5+y, z) for x,y in [
+                (-inner,-radius),(inner,-radius),(radius,-inner),(radius,inner),
+                (inner,radius),(-inner,radius),(-radius,inner),(-radius,-inner)]]
+        for (z1,r1),(z2,r2) in zip(profile,profile[1:]):
+            a,b=ring(z1,r1),ring(z2,r2)
+            for i in range(8):
+                j=(i+1)%8
+                points=[a[i],a[j],b[j],b[i]]
+                self.face(points,material,((z2-z1)*(a[i][0]+a[j][0]-1),
+                                          (z2-z1)*(a[i][1]+a[j][1]-1),r1-r2))
 
     def ring(self, z, radius, thickness, material):
         self.lathe([(z+thickness*math.sin(i*TAU/8), radius+thickness*math.cos(i*TAU/8))
@@ -112,6 +129,28 @@ def write_json(path, data):
     path.write_text(json.dumps(data,indent=2)+'\n')
 
 
+def sync_resource_pack():
+    pack = ROOT / 'redesign for turbine/resource-pack'
+    version = next(line.split('=',1)[1] for line in (ROOT/'gradle.properties').read_text().splitlines()
+                   if line.startswith('mod_version='))
+    files = [*MODELS.glob('turbine*'), MODELS/'water_turbine.json',
+             ASSETS/'models/item/water_turbine.json', ASSETS/'blockstates/water_turbine.json',
+             *ASSETS.glob('textures/block/turbine_*.png')]
+    for src in files:
+        dst = pack / 'assets/waterturbine' / src.relative_to(ASSETS)
+        dst.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(src,dst)
+    write_json(pack/'pack.mcmeta',{'pack':{'pack_format':34,
+        'description':f'Monochrome turbine - Water Turbine {version} (also included in the mod)'}})
+    with zipfile.ZipFile(pack.parent/'redesign-for-turbine.zip','w',zipfile.ZIP_DEFLATED) as archive:
+        for src in sorted(pack.rglob('*')):
+            if src.is_file():
+                # Stable timestamps keep repeated generation reproducible.
+                entry=zipfile.ZipInfo(src.relative_to(pack).as_posix(),(2026,1,1,0,0,0))
+                entry.compress_type=zipfile.ZIP_DEFLATED
+                archive.writestr(entry,src.read_bytes())
+
+
 def main():
     MODELS.mkdir(parents=True,exist_ok=True)
     palette={'white':(232,234,233),'black':(27,29,31),'silver':(137,143,147)}
@@ -121,29 +160,34 @@ def main():
         f'newmtl {name}\nKd 1 1 1\nmap_Kd waterturbine:block/turbine_{name}\n' for name in palette))
 
     body=Mesh()
-    body.lathe([(.16,0),(.16,.145),(.22,.195),(.3,.225),(.5,.225),(.61,.19),(.67,.125),(.67,0)],'white')
+    body.chamfered([(.15,0),(.15,.14),(.22,.25),(.28,.29),(.53,.29),(.62,.21),(.67,.125),(.67,0)],'white')
     # North-facing outlet: a hollow lip, dark interior, and white center vanes.
     body.lathe([(.075,.11),(.075,.14),(.18,.16),(.18,.12),(.075,.11)],'black')
     body.ring(.075,.132,.014,'white')
-    body.ring(.19,.166,.012,'black')
+    body.ring(.145,.143,.012,'black')
     body.lathe([(.14,0),(.14,.113)],'black')
     body.box((.493,.39,.103),(.507,.61,.12),'silver')
     body.box((.39,.493,.103),(.61,.507,.12),'silver')
     body.lathe([(.097,0),(.097,.032),(.14,.032)],'white')
-    body.ring(.63,.17,.013,'black')
+    body.chamfered([(.60,.234),(.625,.205)],'black')
     body.lathe([(.65,.056),(.83,.056)],'silver')
     body.lathe([(.65,.08),(.71,.08)],'black')
     for sign in [-1,1]:
-        body.ellipsoid((.5+sign*.211,.49,.4),(.024,.077,.158),'black')
-        body.ellipsoid((.5+sign*.155,.647,.4),(.052,.036,.12),'white')
+        # Flat inset-like black side panels with silver vents.
+        x=.5+sign*.294
+        body.box((x-.008,.415,.3),(x+.008,.585,.515),'black')
         for i in range(4):
-            x=.5+sign*.235
-            body.box((x-.005,.465,.32+i*.037),(x+.005,.51,.329+i*.037),'silver')
-        x=.5+sign*.23
-        body.box((x-.006,.482,.49),(x+.006,.499,.526),'white')
-    body.box((.405,.24,.32),(.595,.305,.49),'black')
-    body.box((.43,.14,.345),(.57,.24,.465),'white')
-    body.box((.39,.125,.315),(.61,.15,.495),'black')
+            x=.5+sign*.305
+            body.box((x-.004,.45,.32+i*.033),(x+.004,.55,.33+i*.033),'silver')
+        x=.5+sign*.305
+        body.box((x-.004,.465,.465),(x+.004,.49,.493),'white')
+        x=.5+sign*.185
+        body.box((x-.024,.783,.31),(x+.024,.8125,.50),'white')
+    # Square mounting foot reaches y=0 and is centered on the adjacent cable.
+    body.box((.34375,.21875,.34375),(.65625,.30,.625),'black')
+    body.box((.34375,.075,.34375),(.65625,.24,.65625),'white')
+    body.box((.25,0,.25),(.75,.09375,.75),'black')
+    body.box((.3125,.09375,.3125),(.6875,.125,.6875),'silver')
 
     rotor=Mesh()
     rotor.lathe([(.78,0),(.78,.09),(.87,.1),(.94,.055),(.95,0)],'white')
@@ -183,6 +227,7 @@ def main():
         f'facing={direction},waterlogged={wet}':dict(model='waterturbine:block/water_turbine',**({'y':angle} if angle else {}))
         for direction,angle in [('north',0),('east',90),('south',180),('west',270)]
         for wet in ['false','true']}})
+    sync_resource_pack()
     print(f'Generated body {len(body.faces)} faces, rotor {len(rotor.faces)} faces; inventory includes both.')
 
 

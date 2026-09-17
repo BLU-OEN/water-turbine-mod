@@ -35,14 +35,15 @@ import org.jetbrains.annotations.Nullable;
 public class TurbineBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<TurbineBlock> CODEC = simpleCodec(TurbineBlock::new);
 
-    private static final VoxelShape NORTH_SHAPE = Shapes.or(
-            box(4, 4, 0, 12, 12, 11), box(1, 1, 12, 15, 15, 15), box(6, 2, 5, 10, 4, 8));
-    private static final VoxelShape SOUTH_SHAPE = Shapes.or(
-            box(4, 4, 5, 12, 12, 16), box(1, 1, 1, 15, 15, 4), box(6, 2, 8, 10, 4, 11));
-    private static final VoxelShape EAST_SHAPE = Shapes.or(
-            box(5, 4, 4, 16, 12, 12), box(1, 1, 1, 4, 15, 15), box(8, 2, 6, 11, 4, 10));
-    private static final VoxelShape WEST_SHAPE = Shapes.or(
-            box(0, 4, 4, 11, 12, 12), box(12, 1, 1, 15, 15, 15), box(5, 2, 6, 8, 4, 10));
+    private static final VoxelShape CABLE_BASE = box(4, 0, 4, 12, 4, 12);
+    private static final VoxelShape NORTH_SHAPE = Shapes.or(CABLE_BASE,
+            box(3, 3, 2, 13, 13, 11), box(5, 5, 0, 11, 11, 3), box(1, 1, 12, 15, 15, 15));
+    private static final VoxelShape SOUTH_SHAPE = Shapes.or(CABLE_BASE,
+            box(3, 3, 5, 13, 13, 14), box(5, 5, 13, 11, 11, 16), box(1, 1, 1, 15, 15, 4));
+    private static final VoxelShape EAST_SHAPE = Shapes.or(CABLE_BASE,
+            box(5, 3, 3, 14, 13, 13), box(13, 5, 5, 16, 11, 11), box(1, 1, 1, 4, 15, 15));
+    private static final VoxelShape WEST_SHAPE = Shapes.or(CABLE_BASE,
+            box(2, 3, 3, 11, 13, 13), box(0, 5, 5, 3, 11, 11), box(12, 1, 1, 15, 15, 15));
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
