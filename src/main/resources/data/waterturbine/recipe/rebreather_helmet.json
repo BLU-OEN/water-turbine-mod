@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": { "item": "minecraft:glass_pane" },
+    "I": { "item": "minecraft:iron_ingot" },
+    "C": { "item": "minecraft:copper_ingot" },
+    "L": { "item": "minecraft:leather" }
+  },
+  "pattern": [
+    "GIG",
+    "ICI",
+    "LLL"
+  ],
+  "result": {
+    "id": "waterturbine:rebreather_helmet",
+    "count": 1
+  }
+}

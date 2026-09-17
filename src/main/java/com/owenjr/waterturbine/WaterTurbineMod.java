@@ -1,6 +1,8 @@
 package com.owenjr.waterturbine;
 
 import com.owenjr.waterturbine.block.TurbineBlock;
+import com.owenjr.waterturbine.item.RebreatherHelmetItem;
+import com.owenjr.waterturbine.registry.ModArmorMaterials;
 import com.owenjr.waterturbine.registry.ModBlockEntities;
 
 import net.minecraft.core.registries.Registries;
@@ -8,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -41,12 +44,18 @@ public class WaterTurbineMod {
 
     public static final DeferredItem<BlockItem> WATER_TURBINE_ITEM = ITEMS.registerSimpleBlockItem("water_turbine", WATER_TURBINE);
 
+    public static final DeferredItem<RebreatherHelmetItem> REBREATHER_HELMET = ITEMS.register("rebreather_helmet",
+            () -> new RebreatherHelmetItem(ModArmorMaterials.REBREATHER, new Item.Properties().durability(900)));
+
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> WATER_TURBINE_TAB = CREATIVE_MODE_TABS.register("water_turbine_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.waterturbine"))
                     .withTabsBefore(CreativeModeTabs.REDSTONE_BLOCKS)
                     .icon(() -> WATER_TURBINE_ITEM.get().getDefaultInstance())
-                    .displayItems((parameters, output) -> output.accept(WATER_TURBINE_ITEM.get()))
+                    .displayItems((parameters, output) -> {
+                        output.accept(WATER_TURBINE_ITEM.get());
+                        output.accept(REBREATHER_HELMET.get());
+                    })
                     .build());
 
     public WaterTurbineMod(IEventBus modEventBus, ModContainer modContainer) {
@@ -54,6 +63,7 @@ public class WaterTurbineMod {
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+        ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
 
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::addCreative);
@@ -76,6 +86,9 @@ public class WaterTurbineMod {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
             event.accept(WATER_TURBINE_ITEM);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(REBREATHER_HELMET);
         }
     }
 }
