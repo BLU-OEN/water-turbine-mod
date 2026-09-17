@@ -1,6 +1,5 @@
 {
   "itemGroup.waterturbine": "Water Turbine",
   "block.waterturbine.water_turbine": "Water Turbine",
-  "waterturbine.tooltip.water_turbine": "Place in water to generate Forge Energy",
-  "item.waterturbine.rebreather_helmet": "Rebreather Helmet"
+  "waterturbine.tooltip.water_turbine": "Place in water to generate Forge Energy"
 }
